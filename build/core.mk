@@ -7,6 +7,7 @@ $(make-in-subdirs)
 
 all:$(TARGET_DIRS) build_target
 
+test:android
 
 $(TARGET_DIRS):
 	@-mkdir -p $@ 
