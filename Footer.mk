@@ -31,6 +31,8 @@ static_library:$(LIBS_DIR)/lib$(MODULE).a
 
 executable:$(OUT_DIR)/$(MODULE)
 
+custom:$(OBJ)
+
 $(PLUGIN_DIR)/lib$(MODULE).so:$(OBJ)
 	@$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
 	@echo "  PLUGIN  \033[1m\033[32mlib$(MODULE).so\033[0m"
@@ -62,7 +64,7 @@ $(OBJ_DIR)/%.o:%.cpp |$(OBJ_DIR)
 	@echo "  CXX     $<"
 
 $(eval $(cur-subdirs))
-clean:
+clean:custom-clean
 	@for dir in $(subdirs);do \
 		if [ -f $$dir/Makefile ];then \
 		 $(MAKE) -C$$dir clean || exit "$$?"; \
@@ -82,6 +84,8 @@ clean:
 		fi; \
 	done
 
+
+custom_clean:
 
 install_plugin:
 	-cp $(PLUGIN_DIR)/lib$(MODULE).so ~/.silentdream/plugins/ -rf
