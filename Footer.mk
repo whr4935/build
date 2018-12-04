@@ -85,7 +85,7 @@ clean:custom-clean
 	done
 
 
-custom_clean:
+custom-clean:
 
 install_plugin:
 	-cp $(PLUGIN_DIR)/lib$(MODULE).so ~/.silentdream/plugins/ -rf
