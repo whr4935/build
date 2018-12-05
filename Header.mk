@@ -13,10 +13,12 @@ MODULE  :=
 SRC_DIR := 
 DEFINE  :=
 INCLUDE :=
+CFLAGS  := -g -std=c99 -fPIC
+CXXFLAGS:= -g -std=gnu++14 -fPIC
 LDFLAGS := 
 LIBS    := 
-EXECUTABLE_LDFLAGS :=
-EXECUTABLE_LIBS :=
+EXECUTABLE_LDFLAGS := -Wl,-rpath="out/lib" -rdynamic
+EXECUTABLE_LIBS    :=
 
 
 endif

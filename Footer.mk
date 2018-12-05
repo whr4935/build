@@ -6,9 +6,6 @@ ifeq ($(MODULE),)
  # MODULE := $(notdir $(shell pwd))
 endif
 
-CFLAGS := -g -std=c99 -fPIC
-CXXFLAGS:= -g -std=gnu++14 -fPIC
-
 vpath %.c $(SRC_DIR)
 vpath %.cpp $(SRC_DIR)
 SRC := $(foreach dir, $(SRC_DIR), $(wildcard $(dir)/*.c))
@@ -34,20 +31,20 @@ executable:$(OUT_DIR)/$(MODULE)
 custom:$(OBJ)
 
 $(PLUGIN_DIR)/lib$(MODULE).so:$(OBJ)
-	@$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
 	@echo "  PLUGIN  \033[1m\033[32mlib$(MODULE).so\033[0m"
+	@$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
 
 $(LIBS_DIR)/lib$(MODULE).so:$(OBJ)
-	@$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
 	@echo "  LINK    \033[1m\033[32mlib$(MODULE).so\033[0m"
+	@$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
 
 $(LIBS_DIR)/lib$(MODULE).a:$(OBJ)
-	@$(AR) -r $@ $^
 	@echo "  AR      \033[1m\033[32mlib$(MODULE).a\033[0m"
+	@$(AR) -r $@ $^
 
 $(OUT_DIR)/$(MODULE):$(OBJ)
-	@$(CXX) $(LDFLAGS) $(EXECUTABLE_LDFLAGS) -o$@ $^ $(LIBS) $(EXECUTABLE_LIBS)
 	@echo "  BUILD   \033[1m\033[32m$(MODULE)\033[0m"
+	@$(CXX) $(LDFLAGS) $(EXECUTABLE_LDFLAGS) -o$@ $^ $(LIBS) $(EXECUTABLE_LIBS)
 
 
 -include $(OBJ:.o=.dep)
@@ -56,12 +53,12 @@ $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o:%.c |$(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
 	@echo "  CC      $<"
+	@$(CC) $(CFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
 
 $(OBJ_DIR)/%.o:%.cpp |$(OBJ_DIR)
-	@$(CXX) $(CXXFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
 	@echo "  CXX     $<"
+	@$(CXX) $(CXXFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
 
 $(eval $(cur-subdirs))
 clean:custom-clean
