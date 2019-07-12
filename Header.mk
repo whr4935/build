@@ -15,7 +15,7 @@ DEFINE  :=
 INCLUDE :=
 CFLAGS  := -g -std=c99 -fPIC
 CXXFLAGS:= -g -std=gnu++14 -fPIC
-LDFLAGS := 
+LDFLAGS := -L$(LIBS_DIR)
 LIBS    := 
 EXECUTABLE_LDFLAGS := -Wl,-rpath="out/lib" -rdynamic
 EXECUTABLE_LIBS    :=
