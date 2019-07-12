@@ -18,10 +18,10 @@ include $(BUILD_DIR)/Footer.mk
 custom:$(OUT_DIR)/a $(OUT_DIR)/b
 
 $(OUT_DIR)/a:$(OBJ_DIR)/a.o
-	$(build_exectuable)
+	$(build-executable)
 
 $(OUT_DIR)/b:$(OBJ_DIR)/b.o
-	$(build_exectuable)
+	$(build-executable)
 
 custom-clean:
 	rm -rf $(OUT_DIR)/a
