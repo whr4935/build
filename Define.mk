@@ -45,7 +45,7 @@ $(eval $(call set-build-target, $(1)))
 endef
 
 #########################################
-define build_exectuable
+define build-executable
 @$(CXX) $(LDFLAGS) $(EXECUTABLE_LDFLAGS) -o$@ $^ $(LIBS) $(EXECUTABLE_LIBS)
 @echo "  BUILD   \033[1m\033[32m `basename $@` \033[0m"
 endef
