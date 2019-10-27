@@ -13,7 +13,7 @@ MODULE  :=
 SRC_DIR := 
 DEFINE  :=
 INCLUDE :=
-CFLAGS  := -g -std=c99 -fPIC
+CFLAGS  := -g -std=gnu99 -fPIC -D_GNU_SOURCE
 CXXFLAGS:= -g -std=gnu++14 -fPIC
 LDFLAGS := -L$(LIBS_DIR)
 LIBS    := 
