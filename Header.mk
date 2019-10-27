@@ -8,6 +8,11 @@ CXX=g++
 AR=ar
 COMMON_INC := -I$(BASE_DIR)/android -I$(BASE_DIR)/android/include -I$(BASE_DIR)/include -DHAVE_PTHREADS
 
+Q:=@
+ifneq ($(showcommands), )
+Q:=
+endif
+
 
 MODULE  := 
 SRC_DIR := 

@@ -30,45 +30,46 @@ executable:$(OUT_DIR)/$(MODULE)
 
 custom:$(OBJ)
 
-$(PLUGIN_DIR)/lib$(MODULE).so:$(OBJ)
-	@echo "  PLUGIN  \033[1m\033[32mlib$(MODULE).so\033[0m"
-	@$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
+$(PLUGIN_DIR)/lib$(MODULE).so:$(OBJ) | $(PLUGIN_DIR)
+	$(Q)echo "  PLUGIN  \033[1m\033[32mlib$(MODULE).so\033[0m"
+	$(Q)$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
 
-$(LIBS_DIR)/lib$(MODULE).so:$(OBJ)
-	@echo "  LINK    \033[1m\033[32mlib$(MODULE).so\033[0m"
-	@$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
+$(LIBS_DIR)/lib$(MODULE).so:$(OBJ) | $(LIBS_DIR)
+	$(Q)echo "  LINK    \033[1m\033[32mlib$(MODULE).so\033[0m"
+	$(Q)$(CXX) -shared $(LDFLAGS) -o$@ $^ $(LIBS)
 
-$(LIBS_DIR)/lib$(MODULE).a:$(OBJ)
-	@echo "  AR      \033[1m\033[32mlib$(MODULE).a\033[0m"
-	@$(AR) -r $@ $^
+$(LIBS_DIR)/lib$(MODULE).a:$(OBJ) | $(LIBS_DIR)
+	$(Q)echo "  AR      \033[1m\033[32mlib$(MODULE).a\033[0m"
+	$(Q)$(AR) -r $@ $^
 
 $(OUT_DIR)/$(MODULE):$(OBJ)
-	@echo "  BUILD   \033[1m\033[32m$(MODULE)\033[0m"
-	@$(CXX) $(LDFLAGS) $(EXECUTABLE_LDFLAGS) -o$@ $^ $(LIBS) $(EXECUTABLE_LIBS)
+	$(Q)echo "  BUILD   \033[1m\033[32m$(MODULE)\033[0m"
+	$(Q)$(CXX) $(LDFLAGS) $(EXECUTABLE_LDFLAGS) -o$@ $^ $(LIBS) $(EXECUTABLE_LIBS)
 
 
 -include $(OBJ:.o=.dep)
 
-$(OBJ_DIR):
-	@mkdir $(OBJ_DIR)
+$(OBJ_DIR) $(LIBS_DIR) $(PLUGIN_DIR):
+	$(Q)mkdir -p $@
+
 
 $(OBJ_DIR)/%.o:%.c |$(OBJ_DIR)
-	@echo "  CC      $<"
-	@$(CC) $(CFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
+	$(Q)echo "  CC      $<"
+	$(Q)$(CC) $(CFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
 
 $(OBJ_DIR)/%.o:%.cpp |$(OBJ_DIR)
-	@echo "  CXX     $<"
-	@$(CXX) $(CXXFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
+	$(Q)echo "  CXX     $<"
+	$(Q)$(CXX) $(CXXFLAGS) $(DEFINE) $(COMMON_INC) $(INCLUDE) -c $< -o $@ -MMD -MF $(@:.o=.dep)
 
 $(eval $(cur-subdirs))
 clean:custom-clean
-	@for dir in $(subdirs);do \
+	$(Q)for dir in $(subdirs);do \
 		if [ -f $$dir/Makefile ];then \
 		 $(MAKE) -C$$dir clean || exit "$$?"; \
 		fi; \
 	done;
 	-rm -rf $(OBJ_DIR)
-	@for type in $(build_type);do \
+	$(Q)for type in $(build_type);do \
 		case $$type in \
 			executable) target=$(OUT_DIR)/$(MODULE) ;; \
 			shared_library) target=$(LIBS_DIR)/lib$(MODULE).so ;; \
