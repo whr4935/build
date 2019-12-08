@@ -46,7 +46,7 @@ endef
 
 #########################################
 define build-executable
-@$(CXX) $(LDFLAGS) $(EXECUTABLE_LDFLAGS) -o$@ $(filter %.o, $^) $(LIBS) $(EXECUTABLE_LIBS)
+$(Q)$(CXX) $(LDFLAGS) $(EXECUTABLE_LDFLAGS) -o$@ $(filter %.o, $^) $(LIBS) $(EXECUTABLE_LIBS)
 @echo "  BUILD   \033[1m\033[32m `basename $@` \033[0m"
 endef
 

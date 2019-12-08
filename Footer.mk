@@ -2,8 +2,7 @@ ifndef FOOTER_MK
 FOOTER_MK = 1
 
 ifeq ($(MODULE),)
- MODULE := $(notdir $(CURDIR))
- # MODULE := $(notdir $(shell pwd))
+MODULE := module-$(notdir $(CURDIR))
 endif
 
 vpath %.c $(SRC_DIR)
@@ -15,9 +14,9 @@ SRC += $(wildcard *.cpp)
 
 OBJ_DIR := $(OBJS_DIR)/$(MODULE)
 
-OBJ := $(SRC:.c=.o)
-OBJ := $(OBJ:.cpp=.o)
-OBJ := $(addprefix $(OBJ_DIR)/, $(notdir $(OBJ)))
+SRC_OBJ := $(SRC:.c=.o)
+SRC_OBJ := $(SRC_OBJ:.cpp=.o)
+OBJ := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_OBJ)))
 
 
 plugin:$(PLUGIN_DIR)/lib$(MODULE).so
